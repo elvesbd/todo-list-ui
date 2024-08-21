@@ -11,13 +11,12 @@ class AuthService {
   // Função para fazer login e obter um token
   async login(email: string, password: string): Promise<User> {
     const body = { email, password };
-    const user = await this.httpClient.post<User>("/api/login", { body });
-    return user;
+    return this.httpClient.post<User>("/api/login", { body });
   }
 
   // Função para fazer logout
   async logout(): Promise<void> {
-    await this.httpClient.post("/api/logout");
+    return this.httpClient.post("/api/logout");
   }
 }
 
