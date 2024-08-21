@@ -2,9 +2,9 @@ import { ReactNode } from "react";
 import { User } from "../../../services/auth/interfaces";
 
 export interface AuthContextProps {
-  user: User | null;
+  username: string;
   logout: () => void;
-  login: (email: string, password: string) => void;
+  setAuthData: (user: User) => void;
 }
 
 export interface AuthProviderProps {

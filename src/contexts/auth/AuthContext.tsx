@@ -7,18 +7,11 @@ import { AuthContextProps, AuthProviderProps } from "./interfaces";
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [username, setUsername] = useState<string | "">("");
 
-  const login = async (email: string, password: string) => {
-    try {
-      const user = await AuthService.login(email, password);
-      setUser(user);
-
-      console.log({ user });
-      Cookies.set("authToken", user.token, { expires: 7 }); // O cookie expira em 7 dias
-    } catch (error) {
-      console.error("Erro ao fazer login:", error);
-    }
+  const setAuthData = (userData: User) => {
+    setUsername(userData.name);
+    Cookies.set("authToken", userData.token, { expires: 7 });
   };
 
   const logout = async () => {
@@ -31,17 +24,17 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const value = useMemo(
+  const contextValue = useMemo(
     () => ({
-      user,
-      login,
+      username,
       logout,
+      setAuthData,
     }),
-    [user]
+    []
   );
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={contextValue}>
       <>{children}</>
     </AuthContext.Provider>
   );
