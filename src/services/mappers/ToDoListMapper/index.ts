@@ -1,7 +1,7 @@
-import { List, ListDTO } from "../../todo/todoList/interfaces";
+import { TodosList, TodoListDTO } from "../../todo/todosList/interfaces";
 
 export class ToDoListMapper {
-  static toDomain(dto: ListDTO): List {
+  static toDomain(dto: TodosList): TodosList {
     return {
       id: dto.id,
       name: dto.name,
@@ -9,9 +9,8 @@ export class ToDoListMapper {
     };
   }
 
-  static toPersistence(domain: List): ListDTO {
+  static toPersistence(domain: TodoListDTO): TodoListDTO {
     return {
-      id: domain.id,
       name: domain.name,
       color: domain.color,
     };
