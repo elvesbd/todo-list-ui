@@ -11,7 +11,7 @@ class TodoItemService {
 
   // Lista todos os itens de uma lista específica, ordenados por nome ou estado
   async listItems(
-    listId: string,
+    listId: number,
     orderBy: "name" | "status" = "name",
     signal?: AbortSignal
   ): Promise<Item[]> {
@@ -40,13 +40,18 @@ class TodoItemService {
     return this.httpClient.post(`/lists/${listId}/items`, { body });
   }
 
-  async updateItem(listId: string, itemId: string, item: Item): Promise<void> {
-    const body = ToDoItemMapper.toPersistence(item);
-    return this.httpClient.put(`/lists/${listId}/items/${itemId}`, { body });
+  async updateItemName(itemId: number, newName: string): Promise<void> {
+    const body = { name: newName };
+    return this.httpClient.put(`/items/${itemId}`, { body });
   }
 
-  async deleteItem(listId: string, itemId: string): Promise<void> {
-    return this.httpClient.delete(`/lists/${listId}/items/${itemId}`);
+  async updateItemStatus(itemId: number, newStatus: string): Promise<void> {
+    const body = { status: newStatus };
+    return this.httpClient.put(`/items/${itemId}`, { body });
+  }
+
+  async deleteItem(itemId: number): Promise<void> {
+    return this.httpClient.delete(`/items/${itemId}`);
   }
 }
 
