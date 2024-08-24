@@ -1,4 +1,3 @@
-import LockIcon from "@mui/icons-material/Lock";
 import {
   Box,
   Button,
@@ -7,6 +6,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import LockIcon from "@mui/icons-material/Lock";
+
 import { useLogin } from "./useLogin";
 
 export default function Login() {
