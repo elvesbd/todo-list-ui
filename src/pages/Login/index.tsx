@@ -51,7 +51,6 @@ export default function Login() {
         gap={2}
         component="form"
         width="100%"
-        bgcolor="#fff"
         display="flex"
         maxWidth="24rem"
         flexDirection="column"
@@ -67,6 +66,9 @@ export default function Login() {
             value={email}
             disabled={loading}
             onChange={handleEmailChange}
+            sx={{
+              backgroundColor: "#fff",
+            }}
           />
         </FormControl>
 
@@ -80,6 +82,9 @@ export default function Login() {
             value={password}
             onChange={handlePasswordChange}
             disabled={loading}
+            sx={{
+              backgroundColor: "#fff",
+            }}
           />
         </FormControl>
 
