@@ -1,11 +1,11 @@
 export interface Item {
-  id: string;
+  id: number;
   name: string;
   status: "done" | "not done";
 }
 
 export interface ItemDTO {
-  id: string;
+  id: number;
   name: string;
   status: "done" | "not done";
 }
