@@ -12,10 +12,6 @@ class AuthService {
     const body = { email, password };
     return this.httpClient.post<Token>("/login", { body });
   }
-
-  async logout(): Promise<void> {
-    return this.httpClient.post("/logout");
-  }
 }
 
 export default new AuthService();
