@@ -21,6 +21,20 @@ Esta aplicação é uma ferramenta para gerenciar listas de tarefas. O usuário 
 - **Gerenciamento de Listas**: Criação, renomeação, alteração de cor e exclusão de listas de tarefas.
 - **Gerenciamento de Tarefas**: Criação, edição, exclusão e marcação de tarefas como concluídas.
 
+## Capturas de Tela
+
+### Página de Login
+
+![Página de Login](./public/screenshots/login.png)
+
+### Lista de Tarefas
+
+![Lista de Tarefas](./public/screenshots/todolist.png)
+
+### Detalhes da Tarefa
+
+![Detalhes da Tarefa](./public/screenshots/tododetails.png)
+
 ## Credenciais de Acesso
 
 Para facilitar o acesso inicial à aplicação, você pode utilizar as seguintes credenciais padrão:
