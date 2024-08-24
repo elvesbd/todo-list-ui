@@ -1,17 +1,14 @@
-import { createContext, useMemo, useState } from "react";
+import { createContext, useMemo } from "react";
 import Cookies from "js-cookie";
-import { User } from "../../services/auth/interfaces";
+
 import AuthService from "../../services/auth/AuthService";
 import { AuthContextProps, AuthProviderProps } from "./interfaces";
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [username, setUsername] = useState<string | "">("");
-
-  const setAuthData = (userData: User) => {
-    setUsername(userData.name);
-    Cookies.set("authToken", userData.token, { expires: 7 });
+  const setToken = (token: string) => {
+    Cookies.set("authToken", token, { expires: 7 });
   };
 
   const logout = async () => {
@@ -26,9 +23,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const contextValue = useMemo(
     () => ({
-      username,
       logout,
-      setAuthData,
+      setToken,
     }),
     []
   );
