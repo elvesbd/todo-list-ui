@@ -1,12 +1,20 @@
-import { useState } from 'react'
-import './App.css'
+import "react-toastify/dist/ReactToastify.css";
+import { BrowserRouter } from "react-router-dom";
+
+import Router from "./routes/Router";
+import { AuthProvider } from "./contexts/auth/AuthContext";
+import { NotificationProvider } from "./contexts/notification/NotificationContext";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div>hello</div>
-  )
+    <BrowserRouter>
+      <NotificationProvider>
+        <AuthProvider>
+          <Router />
+        </AuthProvider>
+      </NotificationProvider>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

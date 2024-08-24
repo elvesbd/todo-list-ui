@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { HttpClientInterface } from "./interfaces/HttpClientInterface";
-import { HttpRequestOptions } from "./interfaces/HttpRequestOptions";
 import { APIError } from "../../../errors/APIError";
+import { HttpRequestOptions } from "./interfaces/HttpRequestOptions";
+import { HttpClientInterface } from "./interfaces/HttpClientInterface";
 
 export class HttpClient implements HttpClientInterface {
   private axiosInstance;

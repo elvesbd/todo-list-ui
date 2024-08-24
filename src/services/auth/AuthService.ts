@@ -1,5 +1,5 @@
+import { Token } from "./interfaces";
 import { HttpClient } from "../utils/HttpClient";
-import { User } from "./interfaces";
 
 class AuthService {
   private httpClient: HttpClient;
@@ -8,16 +8,9 @@ class AuthService {
     this.httpClient = new HttpClient();
   }
 
-  // Função para fazer login e obter um token
-  async login(email: string, password: string): Promise<User> {
+  async login(email: string, password: string): Promise<Token> {
     const body = { email, password };
-    const user = await this.httpClient.post<User>("/api/login", { body });
-    return user;
-  }
-
-  // Função para fazer logout
-  async logout(): Promise<void> {
-    await this.httpClient.post("/api/logout");
+    return this.httpClient.post<Token>("/login", { body });
   }
 }
 
