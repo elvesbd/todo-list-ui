@@ -11,8 +11,8 @@ interface TodoCreationProps {
 
 export default function TodoCreation({
   newTaskName,
-  onNewTaskChange,
   onAddClick,
+  onNewTaskChange,
 }: TodoCreationProps) {
   return (
     <Box sx={{ mb: 2, display: "flex", gap: 1, padding: "24px" }}>

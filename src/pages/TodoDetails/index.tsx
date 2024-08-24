@@ -1,16 +1,17 @@
 import {
   Box,
-  Typography,
   List,
   ListItem,
   Checkbox,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
+
 import { useTodoDetails } from "./useTodoDetails";
+import BackButton from "../../components/BackButton";
 import TodoActions from "../../components/TodoActions";
 import TodoCreation from "../../components/TodoCreation";
-import BackButton from "../../components/BackButton";
 
 export default function TodoDetails() {
   const { id } = useParams<{ id: string }>();

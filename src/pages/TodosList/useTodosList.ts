@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { TodosList } from "./interfaces";
 import useNotification from "../../hooks/notifications/useNotification";
-import TodosListService from "../../services/todo/todosList/TodosListService";
+import TodosListService from "../../services/todosList/TodosListService";
 
 const mockTodos: TodosList[] = [
   {
@@ -28,7 +28,7 @@ const mockTodos: TodosList[] = [
   },
 ];
 
-export function useTodos() {
+export function useTodosList() {
   const navigate = useNavigate();
   const { notifySuccess, notifyError } = useNotification();
   const [todosList, setTodosList] = useState<TodosList[]>(mockTodos);

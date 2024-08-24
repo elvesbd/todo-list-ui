@@ -1,9 +1,10 @@
 import { useCallback, useState, useEffect, ChangeEvent } from "react";
-import useNotification from "../../hooks/notifications/useNotification";
-import TodoItemService from "../../services/todo/todoItem/TodoItemService";
-import { Item } from "../../services/todo/todoItem/interfaces";
 
-const todos: Item[] = [
+import { Todo } from "./interfaces";
+import useNotification from "../../hooks/notifications/useNotification";
+import TodosService from "../../services/todos/TodosService";
+
+const todos: Todo[] = [
   { id: 1, name: "Lista 1", status: "done" },
   { id: 2, name: "Lista 2", status: "not done" },
 ];
@@ -12,15 +13,15 @@ export function useTodoDetails(id: number) {
   const { notifySuccess, notifyError } = useNotification();
   const [loading, setLoading] = useState(true);
   const [newTaskName, setNewTaskName] = useState("");
-  const [todoDetails, setTodoDetails] = useState<Item[] | []>(todos);
+  const [todoDetails, setTodoDetails] = useState<Todo[] | []>(todos);
 
-  const fetchTodoDetails = useCallback(async () => {
+  const fetchTodos = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await TodoItemService.listItems(id);
+      const response = await TodosService.getAll();
       setTodoDetails(response);
     } catch (err) {
-      notifyError("Não foi possível carregar os detalhes da lista!");
+      notifyError("Não foi possível carregar as tarefas da lista!");
     } finally {
       setLoading(false);
     }
@@ -28,8 +29,7 @@ export function useTodoDetails(id: number) {
 
   const handleStatusChange = useCallback(
     async (taskId: number) => {
-      // Atualiza o estado localmente
-      const updatedDetails: Item[] = todoDetails.map((task) =>
+      const updatedDetails: Todo[] = todoDetails.map((task) =>
         task.id === taskId
           ? { ...task, status: task.status === "done" ? "not done" : "done" }
           : task
@@ -37,7 +37,6 @@ export function useTodoDetails(id: number) {
       setTodoDetails(updatedDetails);
 
       try {
-        // Obtém o status atualizado da tarefa
         const updatedTask = updatedDetails.find((task) => task.id === taskId);
         if (updatedTask) {
           //await TodoItemService.updateItemStatus(taskId, updatedTask.status);
@@ -45,10 +44,10 @@ export function useTodoDetails(id: number) {
         }
       } catch (err) {
         notifyError("Não foi possível atualizar o status da tarefa!");
-        fetchTodoDetails(); // Recarrega a lista no caso de erro
+        fetchTodos();
       }
     },
-    [todoDetails, notifySuccess, notifyError, fetchTodoDetails]
+    [todoDetails, notifySuccess, notifyError, fetchTodos]
   );
 
   const handleChangeName = useCallback(
@@ -80,10 +79,10 @@ export function useTodoDetails(id: number) {
         notifySuccess("Tarefa atualizada com sucesso!");
       } catch (err) {
         notifyError("Não foi possível atualizar a tarefa!");
-        fetchTodoDetails(); // Recarrega a lista no caso de erro
+        fetchTodos();
       }
     },
-    [todoDetails, notifySuccess, notifyError, fetchTodoDetails]
+    [todoDetails, notifySuccess, notifyError, fetchTodos]
   );
 
   const handleDelete = useCallback(
@@ -99,17 +98,17 @@ export function useTodoDetails(id: number) {
         notifySuccess("Tarefa removida com sucesso!");
       } catch (err) {
         notifyError("Não foi possível apagar a tarefa!");
-        fetchTodoDetails(); // Recarrega a lista no caso de erro
+        fetchTodos();
       }
     },
-    [id, notifySuccess, notifyError, fetchTodoDetails]
+    [id, notifySuccess, notifyError, fetchTodos]
   );
 
   const handleAddTask = useCallback(
     async (newTaskName: string) => {
       // Cria um novo ID para a nova tarefa
-      const newTask: Item = {
-        id: Math.max(...todoDetails.map((task) => task.id)) + 1, // Simples incremento de ID
+      const newTask: Todo = {
+        id: Math.max(...todoDetails.map((task) => task.id)) + 1,
         name: newTaskName,
         status: "not done",
       };
@@ -118,13 +117,13 @@ export function useTodoDetails(id: number) {
 
       try {
         // await TodoItemService.createItem(newTask);
-        notifySuccess("Nova tarefa adicionada com sucesso!");
+        notifySuccess("Tarefa adicionada com sucesso!");
       } catch (err) {
-        notifyError("Não foi possível adicionar a nova tarefa!");
-        fetchTodoDetails();
+        notifyError("Não foi possível adicionar a tarefa!");
+        fetchTodos();
       }
     },
-    [todoDetails, notifySuccess, notifyError, fetchTodoDetails]
+    [todoDetails, notifySuccess, notifyError, fetchTodos]
   );
 
   const handleNewTaskChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -139,8 +138,8 @@ export function useTodoDetails(id: number) {
   };
 
   useEffect(() => {
-    fetchTodoDetails();
-  }, [fetchTodoDetails]);
+    fetchTodos();
+  }, [fetchTodos]);
 
   return {
     loading,

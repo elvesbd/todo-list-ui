@@ -1,9 +1,9 @@
 import { List, Box, Avatar, ListItem, TextField } from "@mui/material";
 
-import { useTodos } from "./useTodos";
+import { useTodosList } from "./useTodosList";
 import Header from "../../components/Header";
 import TodoActions from "../../components/TodoActions";
-import TodoListModal from "../../components/TodoListModal";
+import TodosListModal from "../../components/TodosListModal";
 
 export default function TodosList() {
   const {
@@ -16,11 +16,11 @@ export default function TodosList() {
     handleSaveTodoList,
     isCreateModalVisible,
     handleCloseCreateModal,
-  } = useTodos();
+  } = useTodosList();
 
   return (
     <>
-      <TodoListModal
+      <TodosListModal
         onConfirm={handleSaveTodoList}
         visible={isCreateModalVisible}
         onCancel={handleCloseCreateModal}

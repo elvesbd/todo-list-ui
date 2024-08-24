@@ -13,7 +13,7 @@ interface ModalProps {
   onConfirm: (name: string, color: string) => void;
 }
 
-export default function TodoListModal({
+export default function TodosListModal({
   title,
   visible,
   confirmLabel,

@@ -8,3 +8,8 @@ export interface TodoListDTO {
   name: string;
   color: string;
 }
+
+export interface CreateTodoListDTO {
+  name: string;
+  color: string;
+}

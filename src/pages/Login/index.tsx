@@ -48,13 +48,13 @@ export default function Login() {
       </Typography>
 
       <Box
+        gap={2}
         component="form"
         width="100%"
         bgcolor="#fff"
         display="flex"
         maxWidth="24rem"
         flexDirection="column"
-        gap={2}
         onSubmit={handleSubmit}
       >
         <FormControl>
@@ -65,8 +65,8 @@ export default function Login() {
             placeholder="e-mail"
             aria-label="Endereço de e-mail"
             value={email}
-            onChange={handleEmailChange}
             disabled={loading}
+            onChange={handleEmailChange}
           />
         </FormControl>
 
