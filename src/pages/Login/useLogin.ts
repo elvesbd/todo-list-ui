@@ -12,6 +12,7 @@ export function useLogin() {
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const { notifySuccess, notifyError } = useNotification();
 
   const handleClearForm = () => {
@@ -52,13 +53,19 @@ export function useLogin() {
     }
   };
 
+  const handleClickShowPassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
   return {
     email,
     error,
     loading,
     password,
+    showPassword,
     handleSubmit,
     handleEmailChange,
     handlePasswordChange,
+    handleClickShowPassword,
   };
 }
