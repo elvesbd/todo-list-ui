@@ -3,12 +3,15 @@ import {
   Button,
   CircularProgress,
   FormControl,
+  IconButton,
+  InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 
 import { useLogin } from "./useLogin";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export default function Login() {
   const {
@@ -16,9 +19,11 @@ export default function Login() {
     error,
     loading,
     password,
+    showPassword,
     handleSubmit,
     handleEmailChange,
     handlePasswordChange,
+    handleClickShowPassword,
   } = useLogin();
 
   return (
@@ -75,15 +80,28 @@ export default function Login() {
         <FormControl>
           <TextField
             required
-            type="password"
             variant="outlined"
-            placeholder="senha"
             aria-label="Senha"
+            placeholder="senha"
             value={password}
-            onChange={handlePasswordChange}
             disabled={loading}
+            onChange={handlePasswordChange}
+            type={showPassword ? "text" : "password"}
             sx={{
               backgroundColor: "#fff",
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    edge="end"
+                    onClick={handleClickShowPassword}
+                    aria-label="toggle password visibility"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
           />
         </FormControl>
