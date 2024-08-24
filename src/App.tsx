@@ -1,7 +1,7 @@
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter } from "react-router-dom";
 
-import Router from "./Router";
+import Router from "./routes/Router";
 import { AuthProvider } from "./contexts/auth/AuthContext";
 import { NotificationProvider } from "./contexts/notification/NotificationContext";
 
