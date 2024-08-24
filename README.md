@@ -1,50 +1,50 @@
-# React + TypeScript + Vite
+# Todo List App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descrição do Projeto
 
-Currently, two official plugins are available:
+Esta aplicação é uma ferramenta para gerenciar listas de tarefas. O usuário pode se autenticar na página de login e, uma vez autenticado, pode criar, editar e gerenciar listas de tarefas. Cada lista pode ter várias tarefas associadas e permite ao usuário:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Adicionar uma cor para cada lista.
+- Criar, renomear e apagar listas.
+- Adicionar, editar, apagar e marcar tarefas como concluídas.
 
-## Expanding the ESLint configuration
+## Tecnologias Utilizadas
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **[React](https://reactjs.org/)**
+- **[Vite](https://vitejs.dev/)**
+- **[TypeScript](https://www.typescriptlang.org/)**
+- **[Material-UI](https://mui.com/)**
 
-- Configure the top-level `parserOptions` property like this:
+## Funcionalidades
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Autenticação**: O usuário precisa se autenticar para acessar a aplicação.
+- **Gerenciamento de Listas**: Criação, renomeação, alteração de cor e exclusão de listas de tarefas.
+- **Gerenciamento de Tarefas**: Criação, edição, exclusão e marcação de tarefas como concluídas.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Credenciais de Acesso
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Para facilitar o acesso inicial à aplicação, você pode utilizar as seguintes credenciais padrão:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+- **E-mail**: `user@example.com`
+- **Senha**: `password123`
+
+Essas credenciais já estão definidas no banco de dados e podem ser usadas para explorar as funcionalidades da aplicação.
+
+## Estrutura do Projeto
+
+```plaintext
+/
+├── src/
+│   ├── components/      # Componentes reutilizáveis
+│   ├── contexts/        # Contextos para estado global
+│   ├── errors/          # Tratamento de erros
+│   ├── hooks/           # Hooks customizados
+│   ├── pages/           # Páginas principais da aplicação
+│   ├── routes/          # Configuração de rotas da aplicação
+│   ├── App.tsx          # Componente principal da aplicação
+│   ├── main.tsx         # Ponto de entrada do React
+│   └── index.css        # Arquivo de estilos globais
+├── public/              # Arquivos públicos
+├── package.json         # Dependências e scripts
+└── README.md            # Documentação do projeto
 ```
