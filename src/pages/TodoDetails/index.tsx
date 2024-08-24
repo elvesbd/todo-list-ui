@@ -49,7 +49,7 @@ export default function TodoDetails() {
         {todoDetails.map((task) => (
           <ListItem key={task.id} sx={{ alignItems: "center", mb: 1 }}>
             <Checkbox
-              checked={task.status === "done"}
+              checked={task.status}
               color="primary"
               onChange={() => handleStatusChange(task.id)}
             />

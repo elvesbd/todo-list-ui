@@ -1,13 +1,13 @@
 export interface Todo {
   id: number;
   name: string;
-  status: "done" | "not done";
+  status: boolean;
 }
 
 export interface TodoDTO {
   id: number;
   name: string;
-  status: "done" | "not done";
+  status: boolean;
 }
 
 export interface CreateTodoDTO {

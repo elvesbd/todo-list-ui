@@ -5,8 +5,8 @@ import useNotification from "../../hooks/notifications/useNotification";
 import TodosService from "../../services/todos/TodosService";
 
 const todos: Todo[] = [
-  { id: 1, name: "Lista 1", status: "done" },
-  { id: 2, name: "Lista 2", status: "not done" },
+  { id: 1, name: "Lista 1", status: true },
+  { id: 2, name: "Lista 2", status: false },
 ];
 
 export function useTodoDetails(id: number) {
@@ -30,9 +30,7 @@ export function useTodoDetails(id: number) {
   const handleStatusChange = useCallback(
     async (taskId: number) => {
       const updatedDetails: Todo[] = todoDetails.map((task) =>
-        task.id === taskId
-          ? { ...task, status: task.status === "done" ? "not done" : "done" }
-          : task
+        task.id === taskId ? { ...task, status: !task.status } : task
       );
       setTodoDetails(updatedDetails);
 
@@ -110,7 +108,7 @@ export function useTodoDetails(id: number) {
       const newTask: Todo = {
         id: Math.max(...todoDetails.map((task) => task.id)) + 1,
         name: newTaskName,
-        status: "not done",
+        status: false,
       };
 
       setTodoDetails((prevDetails) => [...prevDetails, newTask]);
