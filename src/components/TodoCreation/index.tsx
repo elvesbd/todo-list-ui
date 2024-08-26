@@ -2,7 +2,7 @@ import React from "react";
 import { Box, TextField, Button } from "@mui/material";
 
 interface TodoCreationProps {
-  readonly newTaskName: string;
+  readonly newTodoName: string;
   readonly onNewTaskChange: (
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
@@ -10,14 +10,14 @@ interface TodoCreationProps {
 }
 
 export default function TodoCreation({
-  newTaskName,
+  newTodoName,
   onAddClick,
   onNewTaskChange,
 }: TodoCreationProps) {
   return (
     <Box sx={{ mb: 2, display: "flex", gap: 1, padding: "24px" }}>
       <TextField
-        value={newTaskName}
+        value={newTodoName}
         onChange={onNewTaskChange}
         variant="outlined"
         label="Nova Tarefa"

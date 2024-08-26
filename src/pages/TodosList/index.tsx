@@ -8,22 +8,22 @@ import TodosListModal from "../../components/TodosListModal";
 export default function TodosList() {
   const {
     todosList,
-    handleDelete,
     handleViewTodos,
     selectedTodoList,
-    handleCreateList,
     handleEditTodoList,
-    handleSaveTodoList,
+    handleDeleteTodoList,
+    handleCreateOrUpdate,
     isCreateModalVisible,
-    handleCloseCreateModal,
+    handleOpenCreateTodoListModal,
+    handleCloseCreateTodoListModal,
   } = useTodosList();
 
   return (
     <>
       <TodosListModal
-        onConfirm={handleSaveTodoList}
+        onConfirm={handleCreateOrUpdate}
         visible={isCreateModalVisible}
-        onCancel={handleCloseCreateModal}
+        onCancel={handleCloseCreateTodoListModal}
         selectedTodoList={selectedTodoList}
         title={selectedTodoList ? "Editar Lista" : "Criar Lista"}
         confirmLabel={selectedTodoList ? "Salvar Alterações" : "Criar Lista"}
@@ -33,7 +33,7 @@ export default function TodosList() {
         <Header
           title="Lista de Tarefas"
           buttonText="Criar lista"
-          onButtonClick={handleCreateList}
+          onButtonClick={handleOpenCreateTodoListModal}
         />
 
         <List>
@@ -75,7 +75,7 @@ export default function TodosList() {
                     >
                       <TodoActions
                         type="todoList"
-                        onDelete={() => handleDelete(todo.id)}
+                        onDelete={() => handleDeleteTodoList(todo.id)}
                         onEdit={() => handleEditTodoList(todo.id)}
                       />
                     </Box>

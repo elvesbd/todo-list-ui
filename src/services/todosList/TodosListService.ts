@@ -16,7 +16,7 @@ class TodosListService {
     return todosLists.map(TodosListMapper.toDomain);
   }
 
-  async getById(todoListId: string, signal?: AbortSignal): Promise<TodosList> {
+  /* async getById(todoListId: string, signal?: AbortSignal): Promise<TodosList> {
     const todosList = await this.httpClient.get<TodosList>(
       `/todosList/${todoListId}`,
       {
@@ -24,9 +24,9 @@ class TodosListService {
       }
     );
     return TodosListMapper.toDomain(todosList);
-  }
+  } */
 
-  async create(todoList: CreateTodoListDTO): Promise<TodosList> {
+  async save(todoList: CreateTodoListDTO): Promise<TodosList> {
     const body = TodosListMapper.toPersistence(todoList);
     return this.httpClient.post("/todosList", { body });
   }
@@ -36,7 +36,7 @@ class TodosListService {
     return this.httpClient.put(`/todosList/${todoListId}`, { body });
   }
 
-  async delete(todoListId: number): Promise<void> {
+  async remove(todoListId: number): Promise<void> {
     return this.httpClient.delete(`/todosList/${todoListId}`);
   }
 }

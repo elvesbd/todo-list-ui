@@ -4,40 +4,40 @@ import { Todo } from "./interfaces";
 import useNotification from "../../hooks/notifications/useNotification";
 import TodosService from "../../services/todos/TodosService";
 
-const todos: Todo[] = [
+/* const todos: Todo[] = [
   { id: 1, name: "Lista 1", status: true },
   { id: 2, name: "Lista 2", status: false },
-];
+]; */
 
-export function useTodoDetails(id: number) {
+export function useTodoDetails(todosListId: string) {
   const { notifySuccess, notifyError } = useNotification();
   const [loading, setLoading] = useState(true);
-  const [newTaskName, setNewTaskName] = useState("");
-  const [todoDetails, setTodoDetails] = useState<Todo[] | []>(todos);
+  const [newTodoName, setNewTodoName] = useState("");
+  const [todos, setTodos] = useState<Todo[] | []>([]);
 
   const fetchTodos = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await TodosService.getAll();
-      setTodoDetails(response);
+      const response = await TodosService.getAll(todosListId);
+      setTodos(response);
     } catch (err) {
       notifyError("Não foi possível carregar as tarefas da lista!");
     } finally {
       setLoading(false);
     }
-  }, [id, notifyError]);
+  }, [todosListId, notifyError]);
 
-  const handleStatusChange = useCallback(
+  const handleUpdateTodoStatus = useCallback(
     async (taskId: number) => {
-      const updatedDetails: Todo[] = todoDetails.map((task) =>
+      const updatedDetails: Todo[] = todos.map((task) =>
         task.id === taskId ? { ...task, status: !task.status } : task
       );
-      setTodoDetails(updatedDetails);
+      setTodos(updatedDetails);
 
       try {
         const updatedTask = updatedDetails.find((task) => task.id === taskId);
         if (updatedTask) {
-          //await TodoItemService.updateItemStatus(taskId, updatedTask.status);
+          await TodosService.updateStatus(taskId, updatedTask.status);
           notifySuccess("Status da tarefa atualizado com sucesso!");
         }
       } catch (err) {
@@ -45,16 +45,16 @@ export function useTodoDetails(id: number) {
         fetchTodos();
       }
     },
-    [todoDetails, notifySuccess, notifyError, fetchTodos]
+    [todos, notifySuccess, notifyError, fetchTodos]
   );
 
-  const handleChangeName = useCallback(
+  const handleUpdateTodoName = useCallback(
     (
       taskId: number,
       event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
       const newName = event.target.value;
-      setTodoDetails((prevDetails) =>
+      setTodos((prevDetails) =>
         prevDetails.map((task) =>
           task.id === taskId ? { ...task, name: newName } : task
         )
@@ -63,75 +63,74 @@ export function useTodoDetails(id: number) {
     []
   );
 
-  const handleEdit = useCallback(
+  const handleEditTodo = useCallback(
     async (todoId: number, newName: string) => {
       console.log(todoId, newName);
 
-      const updatedDetails = todoDetails.map((todo) =>
+      const updatedDetails = todos.map((todo) =>
         todo.id === todoId ? { ...todo, name: newName } : todo
       );
-      setTodoDetails(updatedDetails);
+      setTodos(updatedDetails);
 
       try {
-        //await TodoItemService.updateItemName(todoId, newName);
+        await TodosService.updateName(todoId, newName);
         notifySuccess("Tarefa atualizada com sucesso!");
       } catch (err) {
         notifyError("Não foi possível atualizar a tarefa!");
         fetchTodos();
       }
     },
-    [todoDetails, notifySuccess, notifyError, fetchTodos]
+    [todos, notifySuccess, notifyError, fetchTodos]
   );
 
-  const handleDelete = useCallback(
+  const handleDeleteTodo = useCallback(
     async (todoId: number) => {
       console.log({ todoId });
 
-      setTodoDetails((prevDetails) =>
+      setTodos((prevDetails) =>
         prevDetails.filter((task) => task.id !== todoId)
       );
 
       try {
-        //await TodoItemService.deleteItem(todoId);
+        await TodosService.remove(todoId);
         notifySuccess("Tarefa removida com sucesso!");
       } catch (err) {
         notifyError("Não foi possível apagar a tarefa!");
         fetchTodos();
       }
     },
-    [id, notifySuccess, notifyError, fetchTodos]
+    [todosListId, notifySuccess, notifyError, fetchTodos]
   );
 
-  const handleAddTask = useCallback(
-    async (newTaskName: string) => {
-      // Cria um novo ID para a nova tarefa
+  const handleSaveTodo = useCallback(
+    async (newTodoName: string) => {
       const newTask: Todo = {
-        id: Math.max(...todoDetails.map((task) => task.id)) + 1,
-        name: newTaskName,
+        id: Math.max(...todos.map((task) => task.id)) + 1,
+        name: newTodoName,
         status: false,
       };
 
-      setTodoDetails((prevDetails) => [...prevDetails, newTask]);
+      setTodos((prevDetails) => [...prevDetails, newTask]);
 
       try {
-        // await TodoItemService.createItem(newTask);
+        await TodosService.save(todosListId, newTask);
         notifySuccess("Tarefa adicionada com sucesso!");
       } catch (err) {
         notifyError("Não foi possível adicionar a tarefa!");
         fetchTodos();
       }
     },
-    [todoDetails, notifySuccess, notifyError, fetchTodos]
+    [todos, notifySuccess, notifyError, fetchTodos]
   );
 
-  const handleNewTaskChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setNewTaskName(event.target.value);
+  const handleChangeTodoName = (event: ChangeEvent<HTMLInputElement>) => {
+    setNewTodoName(event.target.value);
   };
 
-  const handleAddClick = () => {
-    if (newTaskName.trim()) {
-      handleAddTask(newTaskName);
-      setNewTaskName("");
+  const handleAddTodoClick = () => {
+    if (newTodoName.trim()) {
+      handleSaveTodo(newTodoName);
+      setNewTodoName("");
     }
   };
 
@@ -141,14 +140,14 @@ export function useTodoDetails(id: number) {
 
   return {
     loading,
-    handleEdit,
-    newTaskName,
-    handleDelete,
-    handleAddTask,
-    handleAddClick,
-    handleChangeName,
-    handleStatusChange,
-    handleNewTaskChange,
-    todoDetails: todoDetails || [],
+    handleEditTodo,
+    newTodoName,
+    handleDeleteTodo,
+    handleSaveTodo,
+    handleAddTodoClick,
+    handleUpdateTodoName,
+    handleUpdateTodoStatus,
+    handleChangeTodoName,
+    todos: todos || [],
   };
 }

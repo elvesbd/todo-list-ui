@@ -9,36 +9,42 @@ class TodosService {
     this.httpClient = new HttpClient();
   }
 
-  async getAll(signal?: AbortSignal): Promise<Todo[]> {
-    const todos = await this.httpClient.get<Todo[]>(`/todos`, {
-      signal,
-    });
+  async getAll(todosListId: string, signal?: AbortSignal): Promise<Todo[]> {
+    const todos = await this.httpClient.get<Todo[]>(
+      `/todos/todosListId/${todosListId}`,
+      {
+        signal,
+      }
+    );
     return todos.map(TodosMapper.toDomain);
   }
 
-  async getById(todoId: number, signal?: AbortSignal): Promise<Todo> {
+  /* async getById(todoId: number, signal?: AbortSignal): Promise<Todo> {
     const todoList = await this.httpClient.get<Todo>(`/todos/${todoId}`, {
       signal,
     });
     return TodosMapper.toDomain(todoList);
-  }
+  } */
 
-  async create(todo: CreateTodoDTO): Promise<void> {
-    const body = TodosMapper.toPersistence(todo);
+  async save(todosLisId: string, todo: CreateTodoDTO): Promise<void> {
+    const body = {
+      ...TodosMapper.toPersistence(todo),
+      todosLisId,
+    };
     return this.httpClient.post(`/todos`, { body });
   }
 
   async updateName(todoId: number, newName: string): Promise<void> {
     const body = { name: newName };
-    return this.httpClient.put(`/todos/${todoId}`, { body });
+    return this.httpClient.put(`/todos/${todoId}/update-name`, { body });
   }
 
-  async updateStatus(todoId: number, newStatus: string): Promise<void> {
+  async updateStatus(todoId: number, newStatus: boolean): Promise<void> {
     const body = { status: newStatus };
-    return this.httpClient.put(`/todos/${todoId}`, { body });
+    return this.httpClient.put(`/todos/${todoId}/update-status`, { body });
   }
 
-  async delete(todoId: number): Promise<void> {
+  async remove(todoId: number): Promise<void> {
     return this.httpClient.delete(`/todos/${todoId}`);
   }
 }

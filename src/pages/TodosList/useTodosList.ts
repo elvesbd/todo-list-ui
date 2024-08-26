@@ -5,7 +5,7 @@ import { TodosList } from "./interfaces";
 import useNotification from "../../hooks/notifications/useNotification";
 import TodosListService from "../../services/todosList/TodosListService";
 
-const mockTodos: TodosList[] = [
+/* const mockTodos: TodosList[] = [
   {
     id: 1,
     name: "Correr",
@@ -27,17 +27,17 @@ const mockTodos: TodosList[] = [
     color: "#ffff00",
   },
 ];
-
+ */
 export function useTodosList() {
   const navigate = useNavigate();
   const { notifySuccess, notifyError } = useNotification();
-  const [todosList, setTodosList] = useState<TodosList[]>(mockTodos);
+  const [todosList, setTodosList] = useState<TodosList[]>([]);
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
   const [selectedTodoList, setSelectedTodoList] = useState<TodosList | null>(
     null
   );
 
-  /* useEffect(() => {
+  useEffect(() => {
     const fetchTodosList = async () => {
       try {
         const response = await TodosListService.getAll();
@@ -48,7 +48,7 @@ export function useTodosList() {
     };
 
     fetchTodosList();
-  }, [notifyError]); */
+  }, [notifyError]);
 
   const handleViewTodos = useCallback(
     (id: number) => {
@@ -70,20 +70,15 @@ export function useTodosList() {
     [todosList]
   );
 
-  const handleCreateList = useCallback(() => {
-    setSelectedTodoList(null);
-    setIsCreateModalVisible(true);
-  }, []);
-
-  const handleSaveTodoList = useCallback(
+  const handleCreateOrUpdate = useCallback(
     (name: string, color: string) => {
       console.log(selectedTodoList);
       console.log(name, color);
 
       if (selectedTodoList) {
-        updateTodoList(name, color, selectedTodoList);
+        handleUpdateTodoList(name, color, selectedTodoList);
       } else {
-        createTodoList(name, color);
+        handleSaveTodoList(name, color);
       }
 
       setIsCreateModalVisible(false);
@@ -91,9 +86,9 @@ export function useTodosList() {
     [selectedTodoList, setTodosList, setIsCreateModalVisible]
   );
 
-  const createTodoList = async (name: string, color: string) => {
+  const handleSaveTodoList = async (name: string, color: string) => {
     try {
-      const newTodo = await TodosListService.create({ name, color });
+      const newTodo = await TodosListService.save({ name, color });
 
       setTodosList((prevTodosList: TodosList[]) => [...prevTodosList, newTodo]);
 
@@ -104,14 +99,14 @@ export function useTodosList() {
     }
   };
 
-  const updateTodoList = async (
+  const handleUpdateTodoList = async (
     name: string,
     color: string,
     todosList: TodosList
   ) => {
     try {
       const updatedTodoList = { ...todosList, name, color };
-      await TodosListService.update(todosList.id, updatedTodoList);
+      await TodosListService.update(todosList.id, { name, color });
 
       setTodosList((prevTodosList: TodosList[]) =>
         prevTodosList.map((todo: TodosList) =>
@@ -125,9 +120,9 @@ export function useTodosList() {
     }
   };
 
-  const handleDelete = useCallback(async (todoListId: number) => {
+  const handleDeleteTodoList = useCallback(async (todoListId: number) => {
     try {
-      await TodosListService.delete(todoListId);
+      await TodosListService.remove(todoListId);
 
       setTodosList((prevTodosList) =>
         prevTodosList.filter((todoList) => todoList.id !== todoListId)
@@ -139,20 +134,25 @@ export function useTodosList() {
     }
   }, []);
 
-  const handleCloseCreateModal = () => {
+  const handleOpenCreateTodoListModal = useCallback(() => {
+    setSelectedTodoList(null);
+    setIsCreateModalVisible(true);
+  }, []);
+
+  const handleCloseCreateTodoListModal = () => {
     setSelectedTodoList(null);
     setIsCreateModalVisible(false);
   };
 
   return {
     todosList,
-    handleDelete,
+    handleDeleteTodoList,
     handleViewTodos,
     selectedTodoList,
-    handleCreateList,
+    handleOpenCreateTodoListModal,
     handleEditTodoList,
-    handleSaveTodoList,
+    handleCreateOrUpdate,
     isCreateModalVisible,
-    handleCloseCreateModal,
+    handleCloseCreateTodoListModal,
   };
 }

@@ -14,18 +14,18 @@ import TodoActions from "../../components/TodoActions";
 import TodoCreation from "../../components/TodoCreation";
 
 export default function TodoDetails() {
-  const { id } = useParams<{ id: string }>();
+  const { todosListId } = useParams<{ todosListId: string }>();
   const {
+    todos,
     loading,
-    handleEdit,
-    newTaskName,
-    todoDetails,
-    handleDelete,
-    handleAddClick,
-    handleChangeName,
-    handleStatusChange,
-    handleNewTaskChange,
-  } = useTodoDetails(Number(id));
+    newTodoName,
+    handleEditTodo,
+    handleDeleteTodo,
+    handleAddTodoClick,
+    handleChangeTodoName,
+    handleUpdateTodoName,
+    handleUpdateTodoStatus,
+  } = useTodoDetails(todosListId as string);
 
   if (loading) return <p>Loading...</p>;
 
@@ -40,24 +40,24 @@ export default function TodoDetails() {
       </Typography>
 
       <TodoCreation
-        newTaskName={newTaskName}
-        onAddClick={handleAddClick}
-        onNewTaskChange={handleNewTaskChange}
+        newTodoName={newTodoName}
+        onAddClick={handleAddTodoClick}
+        onNewTaskChange={handleChangeTodoName}
       />
 
       <List>
-        {todoDetails.map((task) => (
+        {todos.map((task) => (
           <ListItem key={task.id} sx={{ alignItems: "center", mb: 1 }}>
             <Checkbox
               checked={task.status}
               color="primary"
-              onChange={() => handleStatusChange(task.id)}
+              onChange={() => handleUpdateTodoStatus(task.id)}
             />
 
             <TextField
               value={task.name}
               variant="standard"
-              onChange={(event) => handleChangeName(task.id, event)}
+              onChange={(event) => handleUpdateTodoName(task.id, event)}
               size="small"
               sx={{
                 mr: 2,
@@ -67,8 +67,8 @@ export default function TodoDetails() {
                 endAdornment: (
                   <TodoActions
                     type="todo"
-                    onDelete={() => handleDelete(task.id)}
-                    onEdit={() => handleEdit(task.id, task.name)}
+                    onDelete={() => handleDeleteTodo(task.id)}
+                    onEdit={() => handleEditTodo(task.id, task.name)}
                   />
                 ),
               }}
