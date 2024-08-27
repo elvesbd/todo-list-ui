@@ -38,14 +38,12 @@ export function useLogin() {
     setError(null);
 
     try {
-      //const { accessToken } = await AuthService.login(email, password);
-      const accessToken = "123";
+      const { accessToken } = await AuthService.login(email, password);
       setToken(accessToken);
       notifySuccess("Seja bem vindo ao Todo App!");
       navigate("/todos");
       handleClearForm();
     } catch (err) {
-      console.log(err);
       notifyError("Não foi possível efetuar o login!");
       navigate("/");
     } finally {

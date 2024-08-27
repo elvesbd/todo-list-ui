@@ -10,7 +10,7 @@ class AuthService {
 
   async login(email: string, password: string): Promise<Token> {
     const body = { email, password };
-    return this.httpClient.post<Token>("/login", { body });
+    return this.httpClient.post<Token>("/auth", { body });
   }
 }
 

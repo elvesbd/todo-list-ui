@@ -10,7 +10,7 @@ class TodosListService {
   }
 
   async getAll(signal?: AbortSignal): Promise<TodosList[]> {
-    const todosLists = await this.httpClient.get<TodosList[]>(`/todosList`, {
+    const todosLists = await this.httpClient.get<TodosList[]>(`/todos-list`, {
       signal,
     });
     return todosLists.map(TodosListMapper.toDomain);
@@ -28,16 +28,16 @@ class TodosListService {
 
   async save(todoList: CreateTodoListDTO): Promise<TodosList> {
     const body = TodosListMapper.toPersistence(todoList);
-    return this.httpClient.post("/todosList", { body });
+    return this.httpClient.post("/todos-list", { body });
   }
 
   async update(todoListId: number, todoList: TodoListDTO): Promise<void> {
     const body = TodosListMapper.toPersistence(todoList);
-    return this.httpClient.put(`/todosList/${todoListId}`, { body });
+    return this.httpClient.put(`/todos-list/${todoListId}`, { body });
   }
 
   async remove(todoListId: number): Promise<void> {
-    return this.httpClient.delete(`/todosList/${todoListId}`);
+    return this.httpClient.delete(`/todos-list/${todoListId}`);
   }
 }
 

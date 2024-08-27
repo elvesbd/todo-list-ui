@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import { APIError } from "../../../errors/APIError";
 import { HttpRequestOptions } from "./interfaces/HttpRequestOptions";
 import { HttpClientInterface } from "./interfaces/HttpClientInterface";
+import Cookies from "js-cookie";
 
 export class HttpClient implements HttpClientInterface {
   private axiosInstance;
@@ -9,6 +10,23 @@ export class HttpClient implements HttpClientInterface {
   constructor() {
     const baseURL = import.meta.env.VITE_API_BASE_URL;
     this.axiosInstance = axios.create({ baseURL });
+    this.configureRequestInterceptor();
+  }
+
+  private configureRequestInterceptor() {
+    this.axiosInstance.interceptors.request.use(
+      (config) => {
+        const token = Cookies.get("authToken");
+
+        if (token) {
+          config.headers["Authorization"] = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
   }
 
   async get<T>(path: string, options?: HttpRequestOptions): Promise<T> {

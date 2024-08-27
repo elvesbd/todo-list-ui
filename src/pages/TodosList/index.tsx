@@ -4,9 +4,11 @@ import { useTodosList } from "./useTodosList";
 import Header from "../../components/Header";
 import TodoActions from "../../components/TodoActions";
 import TodosListModal from "../../components/TodosListModal";
+import Loading from "../../components/Loading";
 
 export default function TodosList() {
   const {
+    loading,
     todosList,
     handleViewTodos,
     selectedTodoList,
@@ -17,6 +19,8 @@ export default function TodosList() {
     handleOpenCreateTodoListModal,
     handleCloseCreateTodoListModal,
   } = useTodosList();
+
+  if (loading) return <Loading />;
 
   return (
     <>
@@ -44,13 +48,12 @@ export default function TodosList() {
               onClick={() => handleViewTodos(todo.id)}
             >
               <Avatar sx={{ bgcolor: todo.color, marginRight: 2 }}>
-                {todo.name.charAt(0)}
+                {todo?.name?.charAt(0)}
               </Avatar>
 
               <TextField
                 value={todo.name}
                 variant="standard"
-                onChange={(event) => console.log(event)}
                 size="small"
                 fullWidth
                 sx={{
@@ -75,8 +78,8 @@ export default function TodosList() {
                     >
                       <TodoActions
                         type="todoList"
-                        onDelete={() => handleDeleteTodoList(todo.id)}
                         onEdit={() => handleEditTodoList(todo.id)}
+                        onDelete={() => handleDeleteTodoList(todo.id)}
                       />
                     </Box>
                   ),

@@ -34,17 +34,17 @@ class TodosService {
     return this.httpClient.post(`/todos`, { body });
   }
 
-  async updateName(todoId: number, newName: string): Promise<void> {
+  async updateName(todoId: string, newName: string): Promise<void> {
     const body = { name: newName };
     return this.httpClient.put(`/todos/${todoId}/update-name`, { body });
   }
 
-  async updateStatus(todoId: number, newStatus: boolean): Promise<void> {
+  async updateStatus(todoId: string, newStatus: boolean): Promise<void> {
     const body = { status: newStatus };
     return this.httpClient.put(`/todos/${todoId}/update-status`, { body });
   }
 
-  async remove(todoId: number): Promise<void> {
+  async remove(todoId: string): Promise<void> {
     return this.httpClient.delete(`/todos/${todoId}`);
   }
 }

@@ -9,7 +9,7 @@ export class APIError extends Error {
     this.name = "APIError";
     this.response = response;
     this.body = response.data;
-    this.message =
-      this.body?.error || `${response.status} - ${response.statusText}`;
+
+    this.message = `${this.body.error} - ${this.body.statusCode}`;
   }
 }

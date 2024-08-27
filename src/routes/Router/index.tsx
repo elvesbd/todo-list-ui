@@ -1,8 +1,8 @@
 import { useRoutes } from "react-router-dom";
 
 import Login from "../../pages/Login";
+import Todos from "../../pages/Todos";
 import TodosList from "../../pages/TodosList";
-import TodoDetails from "../../pages/TodoDetails";
 import PrivateRoute from "../components/PrivateRoute";
 
 export default function Router() {
@@ -16,7 +16,7 @@ export default function Router() {
       element: <PrivateRoute />,
       children: [
         { path: "", element: <TodosList /> },
-        { path: ":id", element: <TodoDetails /> },
+        { path: ":todosListId", element: <Todos /> },
       ],
     },
   ]);
