@@ -39,8 +39,8 @@ Esta aplicação é uma ferramenta para gerenciar listas de tarefas. O usuário 
 
 Para facilitar o acesso inicial à aplicação, você pode utilizar as seguintes credenciais padrão:
 
-- **E-mail**: `user@example.com`
-- **Senha**: `password123`
+- **E-mail**: `admin@mail.com`
+- **Senha**: `@password123`
 
 Essas credenciais já estão definidas no banco de dados e podem ser usadas para explorar as funcionalidades da aplicação.
 
