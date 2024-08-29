@@ -39,7 +39,6 @@ Esta aplicação é uma ferramenta para gerenciar listas de tarefas. O usuário 
 
 Para facilitar o acesso inicial à aplicação, você pode utilizar as seguintes credenciais padrão:
 [https://todo-list-app](https://tranquil-smakager-0e7053.netlify.app)
-- **Url**: ``
 - **E-mail**: `admin@mail.com`
 - **Senha**: `@password123`
 
