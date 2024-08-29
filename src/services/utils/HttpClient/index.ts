@@ -8,7 +8,7 @@ export class HttpClient implements HttpClientInterface {
   private axiosInstance;
 
   constructor() {
-    const baseURL = import.meta.env.VITE_API_BASE_URL;
+    const baseURL = 'https://todo-list-api-8o29.onrender.com/api';
     this.axiosInstance = axios.create({ baseURL });
     this.configureRequestInterceptor();
   }
