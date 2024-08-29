@@ -8,7 +8,7 @@ import PrivateRoute from "../components/PrivateRoute";
 export default function Router() {
   const routes = useRoutes([
     {
-      path: "/",
+      path: "todo-list-ui/",
       element: <Login />,
     },
     {
